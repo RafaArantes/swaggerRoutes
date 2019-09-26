@@ -1,0 +1,791 @@
+swagger: "2.0"
+info:
+  description: "API documentation, wich describe all the entities and end points related to the project."
+  version: "1.0.0"
+  title: "Flex Routes"
+tags:
+- name: "Routes"
+  description: "Every endpoint related to the route entity"
+- name: "Vehicles"
+  description: "Every endpoint related to the vehicle entity"
+- name: "Drivers"
+  description: "Every endpoint related to the driver entity"
+- name: "Employees"
+  description: "Every endpoint related to the employees entity"
+schemes:
+- "http"
+paths:
+  /vehicle:
+    post:
+      tags:
+      - "Vehicles"
+      summary: "Create vehicle in the system."
+      parameters:
+        - name: body
+          in: body
+          required: true
+          description: Vehicle information to be inserted into the system.
+          schema:
+            $ref: '#/definitions/postVehicle'
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Invalid status value"
+          
+    delete:
+      tags:
+      - "Vehicles"
+      summary: "Deletes vehicle from the system."
+      parameters:
+        - name: id
+          in: query
+          type: string
+          required: true
+          description: 'Vehicle Id.<br>**Example:**`123068300`'
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Invalid status value"
+    get:
+      tags:
+      - "Vehicles"
+      summary: "Lists all vehicles or queried by parameters."
+      parameters:
+        - name: routeless
+          in: query
+          type: string
+          required: false
+          description: 'Get routeless vehicles.<br>**Example:**`true`'
+          
+        - name: way
+          in: query
+          type: string
+          required: false
+          description: 'Get vehicles by route way.<br>**Example:**`ENTER`'
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Invalid status value"
+          
+    put:
+      tags:
+      - "Vehicles"
+      summary: "Change vehicle information."
+      parameters:
+        - name: id
+          in: query
+          type: string
+          required: true
+          description: 'Vehicle Id.<br>**Example:**`123068300`'
+          
+        - name: body
+          in: body
+          required: true
+          description: Vehicle information to be changed into the system.
+          schema:
+            $ref: '#/definitions/putVehicle'
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Invalid status value"
+          
+  /vehicle/associate:
+    post:
+      tags:
+      - "Vehicles"
+      summary: "Associates a driver to a vehicle."
+      parameters:
+        - name: id
+          in: query
+          type: string
+          required: true
+          description: 'Vehicle Id.<br>**Example:**`123068300`'
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Invalid status value"
+          
+  /drivers:
+    post:
+      tags:
+      - "Drivers"
+      summary: "Create drivers in the system"
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Invalid status value"
+          
+    delete:
+      tags:
+      - "Drivers"
+      summary: "Deletes driver from the system"
+      parameters:
+        - name: id
+          in: query
+          type: string
+          required: true
+          description: 'Driver´s Id number.<br>**Example:**`12309780`'
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Invalid status value"
+    get:
+      tags:
+      - "Drivers"
+      summary: "Lists drivers with or without parameters"
+      parameters:
+        - name: no_vehicle
+          in: query
+          type: string
+          required: false
+          description: 'Read drivers without vehicle set.<br>**Example:**`true`'
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Invalid status value"
+    
+    put:
+      tags:
+      - "Drivers"
+      summary: "Change driver's information"
+      parameters:
+        - name: id
+          in: query
+          type: string
+          required: true
+          description: 'Driver´s Id number.<br>**Example:**`12309780`'
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Invalid status value"
+          
+  /drivers/driverInfo:
+    get:
+      tags:
+      - "Drivers"
+      summary: "Reads driver metadata"
+      parameters:
+        - name: id
+          in: query
+          type: string
+          required: true
+          description: 'Driver´s Id number.<br>**Example:**`12309780`'
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Invalid status value"
+          
+  /drivers/desassociate:
+    put:
+      tags:
+      - "Drivers"
+      summary: "Removes driver from vehicle"
+      parameters:
+        - name: id
+          in: query
+          type: string
+          required: true
+          description: 'Driver´s Id number.<br>**Example:**`12309780`'
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Invalid status value"
+          
+  /routes:
+    post:
+      tags:
+      - "Routes"
+      summary: "Add route to system"
+      parameters:
+        - name: body
+          in: body
+          required: true
+          description: Route information to be inserted into the system.
+          schema:
+            $ref: '#/definitions/postRoutes'
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Invalid status value"
+          
+    delete:
+      tags:
+      - "Routes"
+      summary: "Deletes route to system"
+      parameters:
+        - name: hash
+          in: query
+          type: string
+          required: true
+          description: 'Route hash code.<br>**Example:**`asdSd12a3asd456sd7`'
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Invalid status value"
+          
+    get:
+      tags:
+      - "Routes"
+      summary: "Get routes information"
+      parameters:
+        - name: hash
+          in: query
+          type: string
+          required: false
+          description: 'Route hash code.<br>**Example:**`asdSd12a3asd456sd7`'
+          
+        - name: shift
+          in: query
+          type: string
+          required: false
+          description: 'Filter by route shift.<br>**Example:**`asdSd12a3asd456sd7`'
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Invalid status value"
+          
+  /routes/edit:
+    put:
+      tags:
+      - "Routes"
+      summary: "Edit route fields"
+      parameters:
+        - name: hash
+          in: query
+          type: string
+          required: true
+          description: 'Route hash code.<br>**Example:**`asdSd12a3asd456sd7`'
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Invalid status value"
+          
+  /routes/check/map:
+    get:
+      tags:
+      - "Routes"
+      summary: "Sends the current step with polyline related to it"
+      parameters:
+        - name: route
+          in: query
+          type: string
+          required: true
+          description: 'Route hash code.<br>**Example:**`asdSd12a3asd456sd7`'
+
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Invalid status value"
+          
+  /routes/complete:
+    put:
+      tags:
+      - "Routes"
+      summary: "Change route state to 'complete route'"
+      parameters:
+        - name: hash
+          in: query
+          type: string
+          required: true
+          description: 'Route hash code.<br>**Example:**`asdSd12a3asd456sd7`'
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Invalid status value"
+  /routes/confirm:
+    get:
+      tags:
+      - "Routes"
+      summary: "Change route state to 'confirmed'"
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Invalid status value"
+  /routes/user:
+    get:
+      tags:
+      - "Routes"
+      summary: "Get route metadata by user"
+      parameters:
+        - name: id
+          in: query
+          type: string
+          required: true
+          description: 'User Id Number.<br>**Example:**`123068400`'
+          
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Invalid status value"
+          
+  /routes/vehicle:
+    get:
+      tags:
+      - "Routes"
+      summary: "Get route by vehicle"
+      parameters:
+        - name: id
+          in: query
+          type: string
+          required: true
+          description: 'Vehicle Id Number.<br>**Example:**`123068400`'
+          
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Invalid status value"
+          
+  /routes/driver:
+    get:
+      tags:
+      - "Routes"
+      summary: "Get route by driver."
+      parameters:
+        - name: name
+          in: query
+          type: string
+          required: true
+          description: 'Driver´s Name.<br>**Example:**`ROBERTO DA SILVA`'
+          
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Invalid status value"
+  /routes/initial:
+    put:
+      tags:
+      - "Routes"
+      summary: "Updates first point in route."
+      parameters:
+        - name: body
+          in: body
+          required: true
+          description: New initial route location.
+          schema:
+            $ref: '#/definitions/postRoutesInitial'
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Invalid status value"
+  /routes/end:
+    put:
+      tags:
+      - "Routes"
+      summary: "Updates last point in route."
+      parameters:
+        - name: body
+          in: body
+          required: true
+          description: New end route location.
+          schema:
+            $ref: '#/definitions/postRoutesEnd'
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Invalid status value"
+          
+  /routes/person:
+    put:
+      tags:
+      - "Routes"
+      summary: "Adds person to route."
+      parameters:
+        - name: hash
+          in: query
+          type: string
+          required: true
+          description: 'Route hash code.<br>**Example:**`asdSd12a3asd456sd7`'
+        - name: body
+          in: body
+          required: true
+          description: Person 
+          schema:
+            $ref: '#/definitions/putRoutesPerson'
+      
+      
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Invalid status value"
+          
+    delete:
+      tags:
+      - "Routes"
+      summary: "Deletes person from route."
+      parameters:
+        - name: hash
+          in: query
+          type: string
+          required: true
+          description: 'Route hash code.<br>**Example:**`asdSd12a3asd456sd7`'
+          
+        - name: registration
+          in: query
+          type: string
+          required: true
+          description: 'Employee registration code.<br>**Example:**`19876300`'
+          
+        - name: person
+          in: query
+          type: string
+          required: true
+          description: 'Employee name.<br>**Example:**`JOÃO MARCELO`'
+        
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Invalid status value"
+          
+  /routes/polyline:
+    get:
+      tags:
+      - "Routes"
+      summary: "Gets polyline from route."
+      parameters:
+        - name: id
+          in: query
+          type: string
+          required: true
+          description: 'Route hash code.<br>**Example:**`asdSd12a3asd456sd7`'
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Invalid status value"
+          
+  /routes/step:
+    get:
+      tags:
+      - "Routes"
+      summary: "Gets current step from route."
+      parameters:
+        - name: hash
+          in: query
+          type: string
+          required: true
+          description: 'Route hash code.<br>**Example:**`asdSd12a3asd456sd7`'
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Invalid status value"
+          
+    put:
+      tags:
+      - "Routes"
+      summary: "Update step value."
+      parameters:
+        - name: hash
+          in: query
+          type: string
+          required: true
+          description: 'Route hash code.<br>**Example:**`asdSd12a3asd456sd7`'
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Invalid status value"
+          
+  /routes/person/list:
+    get:
+      tags:
+      - "Routes"
+      summary: "Gets all employees from route."
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Invalid status value"
+    put:
+      tags:
+      - "Routes"
+      summary: "Update all employees from route."
+      parameters:
+        - name: hash
+          in: query
+          type: string
+          required: true
+          description: 'Route hash code.<br>**Example:**`asdSd12a3asd456sd7`'
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Invalid status value"
+  /routes/locations:
+    put:
+      tags:
+      - "Routes"
+      summary: "Update locations and regenerates polylines"
+      parameters:
+        - name: hash
+          in: query
+          type: string
+          required: true
+          description: 'Route hash code.<br>**Example:**`asdSd12a3asd456sd7`'
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Invalid status value"
+          
+  /routes/ghostpoints:
+    get:
+      tags:
+      - "Routes"
+      summary: "Gets all custompoints from route."
+      parameters:
+        - name: hash
+          in: query
+          type: string
+          required: true
+          description: 'Route hash code.<br>**Example:**`asdSd12a3asd456sd7`'
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Invalid status value"
+    put:
+      tags:
+      - "Routes"
+      summary: "Change custompoints from route."
+      parameters:
+        - name: id
+          in: query
+          type: string
+          required: true
+          description: 'Route hash code.<br>**Example:**`asdSd12a3asd456sd7`'
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Invalid status value"
+          
+  /employees:
+    get:
+        tags:
+        - "Employees"
+        summary: "List employees with or without filters."
+        parameters:
+          - name: shift
+            in: query
+            type: string
+            required: false
+            description: 'Filter based on shift code.<br>**Example:**`211`'
+          - name: registration
+            in: query
+            type: string
+            required: false
+            description: 'Filter based on employee registration number.<br>**Example:**`129757300`'
+          - name: way
+            in: query
+            type: string
+            required: false
+            description: 'Filter based on route way.<br>**Example:**`ENTER`'
+        responses:
+          200:
+            description: "successful operation"
+          400:
+            description: "Invalid status value"
+    put:
+      tags:
+      - "Employees"
+      summary: "Update employee's shift."
+      parameters:
+        - name: registration
+          in: query
+          type: string
+          required: true
+          description: 'Employee registration number.<br>**Example:**`129757300`'
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Invalid status value"
+          
+    delete:
+      tags:
+      - "Employees"
+      summary: "Deletes employee from the system."
+      parameters:
+        - name: id
+          in: query
+          type: string
+          required: true
+          description: 'Employee id number.<br>**Example:**`129757300`'
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Invalid status value"
+          
+  /employees/location:
+    put:
+      tags:
+      - "Employees"
+      summary: "Change employee's location."
+      parameters:
+        - name: registration
+          in: query
+          type: string
+          required: true
+          description: 'Employee registration number.<br>**Example:**`129757300`'
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Invalid status value"
+          
+  /employees/msg:
+    post:
+      tags:
+      - "Employees"
+      summary: "Change employee's custom message to be sent."
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Invalid status value"
+          
+  /employees/msg/send:
+    post:
+      tags:
+      - "Employees"
+      summary: "Send custom messages to all employees defined."
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Invalid status value"
+          
+  /employees/import:
+    put:
+      tags:
+      - "Employees"
+      summary: "Edit the employee list registered on the system."
+      consumes:
+         - multipart/form-data
+      parameters:
+        - in: formData
+          name: "*.csv"
+          type: file
+          description: The file wich contains the employees information.
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Invalid status value"
+          
+  /employees/export:
+    get:
+      tags:
+      - "Employees"
+      summary: Download employees file.
+      responses:
+        200:
+          description: "successful operation"
+        400:
+          description: "Invalid status value"
+          
+definitions:
+  postVehicle:
+    type: object
+  putVehicle:
+    type: object
+  putRoutesPerson:
+    type: object
+            
+  postRoutesInitial:
+    type: object
+    required:
+      - hash
+      - location
+    properties:
+      hash: 
+        type: string
+        example: 'RouteHash'
+      location:
+        type: object
+        required:
+          - lat
+          - lng
+        properties:
+          lat:
+            type: string
+            example: '12.1234'
+          lng:
+            type: string
+            example: '11.3456'
+          
+  postRoutesEnd:
+    type: object
+    required:
+      - hash
+      - location
+    properties:
+      hash: 
+        type: string
+        example: 'RouteHash'
+      location:
+        type: object
+        required:
+          - lat
+          - lng
+        properties:
+          lat:
+            type: string
+            example: '12.1234'
+          lng:
+            type: string
+            example: '11.3456'
+            
+  postRoutes:
+    type: object
+    required:
+      - vehicle
+      - locations
+      - name
+      - type
+      - frequency
+      - flex_direction
+    properties:
+      name: 
+        type: string
+        example: 'RouteName'
+      type:
+        type: string
+        example: 'RouteType'
+      frequency:
+        type: string
+        example: 'RouteFrequency'
+      flex_direction:
+        type: string
+        example: 'RouteDirection'
+      vehicle:
+        type: object
+      locations:
+        type: object
